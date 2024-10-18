@@ -13,4 +13,4 @@ def hello_world():
 @app.route("/lister/<folder>")
 def list_folder(folder):
     folder_contents = list(Path(f"/{folder}").glob("**/*"))
-    return f"Folder {folder} contains: {folder_contents}"
+    return f"Folder '{folder}' contains: {folder_contents}"

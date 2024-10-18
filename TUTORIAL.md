@@ -1,5 +1,37 @@
 # Docker 101 tutorial voor docenten Bio-informatica
 
+## Basic Docker commandos en concepten
+
+```bash
+docker pull
+docker run (inclusief -d)
+docker ps
+mounten van data
+```
+
+Gebruik hier`fastq-scan` voor
+
+```bash
+docker run quay.io/biocontainers/fastq-scan:0.4.4--h7d875b9_0
+```
+
+Custom commando
+
+```bash
+docker run quay.io/biocontainers/fastq-scan:0.4.4--h7d875b9_0 fastq-scan -h
+```
+
+Interactive terminal
+
+```bash
+docker run -it quay.io/biocontainers/fastq-scan:0.4.4--h7d875b9_0 sh
+```
+
+Waar kan je images vinden? https://hub.docker.com/ en dan zoeken
+
+
+
+
 ## Hoe krijg ik mijn Flask applicatie in een container?
 
 Hier volgt simpele uitwerking om een Flask applicatie te containerizen met Docker.
@@ -61,3 +93,7 @@ Laat de studenten vooral hun image taggen met hun studentnummer of zo. Dat maakt
 
 
 [1]: *let wel op: als je de `requirements.txt` aanpast, moet je wel je container rebuilden*
+
+## Extra links
+
+https://docs.docker.com/guides/?levels=beginner
