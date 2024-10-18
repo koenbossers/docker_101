@@ -5,7 +5,7 @@ FROM python:3.12-slim
 WORKDIR /flask
 
 # Copy the necessary files and directories into the container
-COPY app.py requirements.txt /flask/
+COPY . /flask/
 
 # Upgrade pip and install Python dependencies
 RUN pip3 install --upgrade pip && pip install --no-cache-dir -r requirements.txt
@@ -14,4 +14,4 @@ RUN pip3 install --upgrade pip && pip install --no-cache-dir -r requirements.txt
 EXPOSE 5000
 
 # Define the command to run the Flask application
-CMD ["flask","--app", "app", "run"]
+CMD ["flask","--app", "app", "run", "--host=0.0.0.0"]
