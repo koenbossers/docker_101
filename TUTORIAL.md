@@ -27,9 +27,7 @@ Interactive terminal
 docker run -it quay.io/biocontainers/fastq-scan:0.4.4--h7d875b9_0 sh
 ```
 
-Waar kan je images vinden? https://hub.docker.com/ en dan zoeken
-
-
+Waar kan je images vinden? Bijvoorbeeld https://hub.docker.com/ en dan zoeken. 
 
 
 ## Hoe krijg ik mijn Flask applicatie in een container?
@@ -73,7 +71,22 @@ Interactive development terwijl je app in een container runt! Makkelijk, gewoon 
 docker run -v /Users/koen/CODING/docker_101/flask_in_docker:/flask  -p 8999:5000 myflaskapp flask run --host 0.0.0.0 --debug
 ```
 
-Zie: https://medium.com/@geeekfa/dockerizing-a-python-flask-app-a-step-by-step-guide-to-containerizing-your-web-application-d0f123159ba2
+[1]: *let wel op: als je de `requirements.txt` aanpast, moet je wel je container rebuilden*
+
+## Docker image layers
+
+Docker optimaliseert het bouwen van container images door middel van layers. Layers zijn *immutable*. Elke keer als een layer verandert, moeten de layers die daarna komen, ook worden gerebuild. Het optimaliseren van de volgorde van je layers zijn daarom belangrijk. 
+
+Het volgende stappenplan komt van de [officiele Docker documentatie](https://docs.docker.com/get-started/docker-concepts/building-images/understanding-image-layers/).
+
+- The first layer adds basic commands and a package manager, such as apt.
+- The second layer installs a Python runtime and pip for dependency management.
+- The third layer copies in an application’s specific requirements.txt file.
+- The fourth layer installs that application’s specific dependencies.
+- The fifth layer copies in the actual source code of the application.
+
+Als je deze principes toepast op onze oorspronkelijke Flask [Dockerfile](./flask_in_docker/Dockerfile) krijg je de [Dockerfile_optimized](./flask_in_docker/Dockerfile_optimized). Deze build sneller als je alleen je code in `app.py` aanpast aangezien het installeren van de requirements dan gecached is (=die layer bestaat al).
+
 
 ## Hoe kunnen studenten een Docker image inleveren?
 
@@ -91,9 +104,29 @@ docker image load -i s101010_app.tar.gz
 
 Laat de studenten vooral hun image taggen met hun studentnummer of zo. Dat maakt het leven een stuk makkelijker voor de nakijkende docent.
 
+```bash
+docker build -t bprop_s101010 .
+```
 
-[1]: *let wel op: als je de `requirements.txt` aanpast, moet je wel je container rebuilden*
+
+## Container met Conda packages
+
+
+## Jupyter Docker containers
+
+Jupyter heeft een [hele mooie selectie aan pre-built Docker images](https://jupyter-docker-stacks.readthedocs.io/en/latest/) klaarstaan op hun website. Daarmee is het supermakkelijk om een uitgebreide jupyter server/notebook te starten. Er staat ook een prima uitleg op die pagina om te leren werken met deze containers (spoiler alert: ongeveer alles kennen jullie nu al vanuit het voorbeeld met de Flask app).
+
+```bash
+docker run -it --rm -p 10000:8888 -v "${PWD}":/home/jovyan/work quay.io/jupyter/datascience-notebook:2024-10-07
+```
+
+
+## Docker compose
+
+Flask app met whoami als ext dependency (en database, maar die nog niet gebruiken)
+
 
 ## Extra links
 
 https://docs.docker.com/guides/?levels=beginner
+https://medium.com/@geeekfa/dockerizing-a-python-flask-app-a-step-by-step-guide-to-containerizing-your-web-application-d0f123159ba2
