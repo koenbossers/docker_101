@@ -187,14 +187,14 @@ Ook hier geldt: laat de studenten vooral hun image taggen met hun studentnummer 
 
 ## Container met Conda packages
 
-In de folder 
+In [deze folder](./conda_env_in_docker/) staat code om een Docker container te bouwen op basis van een [Conda environment definitie](./conda_env_in_docker/environment.yaml). Je ziet dat deze [Dockerfile](./conda_env_in_docker/Dockerfile) heel vergelijkbaar is met die voor de Flask app: kies een geschikte base image en installeer software
 
 ```bash
 cd conda_env_in_docker
 docker build -t bngp .
+docker run -it bngp
 ```
 
-Je 
 
 ## Jupyter Docker containers
 
@@ -205,9 +205,29 @@ docker run -it --rm -p 10000:8888 -v "${PWD}":/home/jovyan/work quay.io/jupyter/
 ```
 
 
-## Docker compose
+## Docker compose: meerdere containers in één netwerk
 
-Flask app met whoami als ext dependency (en database, maar die nog niet gebruiken)
+
+*De code in deze folder is gebaseerd op [deze bron](https://dev.to/francescoxx/python-crud-rest-api-using-flask-sqlalchemy-postgres-docker-docker-compose-3kh4)*
+
+Je kunt ook meerdere Docker containers tegelijkertijd in een gezamenlijk netwerk runnen, zodat ze direct met elkaar kunnen communiceren. Dit gebeurt heel vaak in web-app stacks, waar je een frontend hebt die bijvoorbeeld met een API of een database praat. BPROP-ers opgelet dus!
+
+
+Zo'n netwerk van samenwerkende containers deninieer je in een `docker-compose.yml` file. In deze repo staat een simpel voorbeeld van een [docker-compose.yml](./docker-compose/docker-compose.yml) bestand.
+
+In het `docker-compose.yml` bestand staan in essentie allerlei commandline opties die je ook via `docker run` zou definieren, al uitgespeld. Bijvoorbeeld volume-mounts en port mappings.  
+
+Bij het runnen van de compose file wordt er *automatisch* een intern docker netwerk gebouwd, met de container-names van de individuele services als hostnames. In dit geval kan een app in het netwerk bij de postgres database via de hostname `flask_db`. Zie het voorbeeld van de Flask-app.
+
+Het runnen van het compose netwerk:
+
+```bash
+docker-compose build
+docker-compose up
+curl localhost:8888/user-by-id/10
+docker-compose down
+```
+
 
 
 ## Extra links
