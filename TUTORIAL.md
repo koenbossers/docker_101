@@ -30,6 +30,16 @@ Common Commands:
 
 ```
 
+## Container of image?
+
+Een klein stukje terminologie die nog wel eens verwarrend kan zijn: wat is het verschil tussen een Docker container en een Docker image 
+([bron](https://circleci.com/blog/docker-image-vs-container/)):
+
+> A Docker image is a blueprint of code that is executed in a Docker container. To use Docker, you add layers of core functionalities to a Docker image that are then used to create a running container.
+>
+>In other words, a Docker container is a running instance of a Docker image. You can create many containers from the same image, each with its own unique data and state.
+
+
 ## Het runnen van een Docker container
 
 We beginnen met het runnen van een reeds bestaande image, in dit geval de tool [fastq-scan](https://github.com/rpetit3/fastq-scan).
@@ -69,7 +79,31 @@ Hier volgt simpele uitwerking om een Flask applicatie te containerizen met Docke
 
 ### Anatomie van een `Dockerfile`
 
-FIXME uitleggen hoe die in elkaar zit
+Het recept om een Docker image te bouwen staat in een `Dockerfile`. Je bouwt een Docker image op door een geschikte `base` image te kiezen (bijvoorbeeld een minimale Ubuntu distributie, of een image met een bepaalde Python versie) en daar software en/of je eigen code aan toe te voegen.
+
+
+Hieronder staat de inhoud van [Dockerfile](./flask_in_docker/Dockerfile) die we gebruiken om de Flask image te bouwen:
+
+```docker
+# Use the official Python 3.12 slim image as the base image
+FROM python:3.12-slim
+
+# Set the working directory within the container
+WORKDIR /flask
+
+# Copy the necessary files and directories into the container
+COPY . /flask/
+
+# Upgrade pip and install Python dependencies
+RUN pip3 install --upgrade pip && pip install --no-cache-dir -r requirements.txt
+
+# Expose port 5000 for the Flask application
+EXPOSE 5000
+
+# Define the command to run the Flask application
+CMD ["flask","--app", "app", "run", "--host=0.0.0.0"]
+```
+
 
 ### Bouwen van de image
 
@@ -78,7 +112,7 @@ cd flask_in_docker
 docker build -t myflaskapp .
 ```
 
-Runnen:
+Runnen van de image: 
 
 ```bash
 docker run myflaskapp
@@ -146,6 +180,7 @@ Laat de studenten vooral hun image taggen met hun studentnummer of zo. Dat maakt
 docker build -t bprop_s101010 .
 ```
 
+Uiteraard kan je ook prima een git repo inleveren, en dan als docent zelf `docker build` runnen om de image te bouwen.
 
 ## Container met Conda packages
 
