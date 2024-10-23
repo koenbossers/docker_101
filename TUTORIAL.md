@@ -1,39 +1,77 @@
 # Docker 101 tutorial voor docenten Bio-informatica
 
-## Basic Docker commandos en concepten
+Deze praktische demo focust zich op de volgende Docker commando's:
+
+- `docker run`
+- `docker build`
+
+Er zijn er echter veel meer. Zie hieronder een *stukje* van de output van het commando `docker` waarbij alleen de common commands te zien zijn. Ik raad iedereen aan om ook eens `docker ps` en `docker images` te proberen als je deze tutorial hebt doorlopen.
 
 ```bash
-docker pull
-docker run (inclusief -d)
-docker ps
-mounten van data
+Usage:  docker [OPTIONS] COMMAND
+
+A self-sufficient runtime for containers
+
+Common Commands:
+  run         Create and run a new container from an image
+  exec        Execute a command in a running container
+  ps          List containers
+  build       Build an image from a Dockerfile
+  pull        Download an image from a registry
+  push        Upload an image to a registry
+  images      List images
+  login       Authenticate to a registry
+  logout      Log out from a registry
+  search      Search Docker Hub for images
+  version     Show the Docker version information
+  info        Display system-wide information
+
+  ...
+
 ```
 
-Gebruik hier`fastq-scan` voor
+## Het runnen van een Docker container
+
+We beginnen met het runnen van een reeds bestaande image, in dit geval de tool [fastq-scan](https://github.com/rpetit3/fastq-scan).
 
 ```bash
 docker run quay.io/biocontainers/fastq-scan:0.4.4--h7d875b9_0
 ```
 
-Custom commando
+Je kunt het default commando aanpassen:
 
 ```bash
 docker run quay.io/biocontainers/fastq-scan:0.4.4--h7d875b9_0 fastq-scan -h
 ```
 
-Interactive terminal
+Een interactieve terminal openen in de container:
 
 ```bash
 docker run -it quay.io/biocontainers/fastq-scan:0.4.4--h7d875b9_0 sh
 ```
 
-Waar kan je images vinden? Bijvoorbeeld https://hub.docker.com/ en dan zoeken. 
+Om reads van buiten de container door te geven aan de container kunnen we gebruik maken van een STDIN stream: 
+
+```bash
+cat reads.fastq | docker run -i quay.io/biocontainers/fastq-scan:0.4.4--h7d875b9_0 fastq-scan
+
+# alternatief
+docker run -i quay.io/biocontainers/fastq-scan:0.4.4--h7d875b9_0 fastq-scan < reads.fastq
+
+```
+
+Waar kan je images vinden? Bijvoorbeeld https://hub.docker.com/ en dan zoeken. Of voor bioinformatica tools: https://quay.io/biocontainers/.
 
 
 ## Hoe krijg ik mijn Flask applicatie in een container?
 
 Hier volgt simpele uitwerking om een Flask applicatie te containerizen met Docker.
 
+### Anatomie van een `Dockerfile`
+
+FIXME uitleggen hoe die in elkaar zit
+
+### Bouwen van de image
 
 ```bash
 cd flask_in_docker
@@ -111,6 +149,14 @@ docker build -t bprop_s101010 .
 
 ## Container met Conda packages
 
+In de folder 
+
+```bash
+cd conda_env_in_docker
+docker build -t bngp .
+```
+
+Je 
 
 ## Jupyter Docker containers
 
