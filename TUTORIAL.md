@@ -232,5 +232,5 @@ docker-compose down
 
 ## Extra links
 
-https://docs.docker.com/guides/?levels=beginner
-https://medium.com/@geeekfa/dockerizing-a-python-flask-app-a-step-by-step-guide-to-containerizing-your-web-application-d0f123159ba2
+- https://docs.docker.com/guides/?levels=beginner
+- https://medium.com/@geeekfa/dockerizing-a-python-flask-app-a-step-by-step-guide-to-containerizing-your-web-application-d0f123159ba2
