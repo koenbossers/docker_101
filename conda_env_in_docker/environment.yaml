@@ -1,0 +1,16 @@
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - snakemake
+  - minimap2
+  - samtools
+  - bcftools
+  - iqtree
+  - flye
+  - sourmash
+  - scipy
+  - memray
+  - jq
+  - graphviz
