@@ -162,25 +162,28 @@ Als je deze principes toepast op onze oorspronkelijke Flask [Dockerfile](./flask
 
 ## Hoe kunnen studenten een Docker image inleveren?
 
+Het simpelste is als studenten een git repo inleveren, en dan als docent zelf `docker build` runnen om de image te bouwen. Maak het jezelf makkelijk door de builds te taggen met een studentnummer of zo:
+
+```bash
+docker build -t bprop_s101010 .
+```
+
+Het is ook mogelijk om een Docker image op te slaan, en in te leveren:
+
 ```bash
 docker image save myflaskapp > s101010_app.tar            # zonder gzip compressie
 docker image save myflaskapp | gzip > s101010_app.tar.gz  # met gzip compressie
 ```
 
-Laden
+Als docent kan je zo'n image weer inladen dmv één van de onderstaande commando's:
 
 ```bash
 docker image load -i s101010_app.tar
 docker image load -i s101010_app.tar.gz
 ```
 
-Laat de studenten vooral hun image taggen met hun studentnummer of zo. Dat maakt het leven een stuk makkelijker voor de nakijkende docent.
+Ook hier geldt: laat de studenten vooral hun image taggen met hun studentnummer of zo. Dat maakt het leven een stuk makkelijker voor de nakijkende docent.
 
-```bash
-docker build -t bprop_s101010 .
-```
-
-Uiteraard kan je ook prima een git repo inleveren, en dan als docent zelf `docker build` runnen om de image te bouwen.
 
 ## Container met Conda packages
 
