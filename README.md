@@ -222,6 +222,7 @@ Bij het runnen van de compose file wordt er *automatisch* een intern docker netw
 Het runnen van het compose netwerk:
 
 ```bash
+cd docker_compose_example
 docker-compose build
 docker-compose up
 curl localhost:8888/user-by-id/10
