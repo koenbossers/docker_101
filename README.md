@@ -130,12 +130,21 @@ Runnen met custom entry commando
 docker run -it -p 8999:5000 myflaskapp flask run --host 0.0.0.0 --debug
 ```
 
-Mounten lokale folder in Docker container:
+Mounten lokale folder in Docker container (bind mount):
 
 ```bash
 docker run -v /Users/koen/CODING/precisionfoodsafety:/pfs_in_docker  -p 8999:5000 myflaskapp
 curl http://localhost:8999/lister/pfs_in_docker
 ```
+
+Als je nu een kijkje wilt nemen in de runnende container met de bind mount, moet je eerst de container id opzoeken:
+
+```bash
+docker ps
+# noteer de container id
+docker exec -it <containerid> sh
+```
+
 
 Interactive development terwijl je app in een container runt! Makkelijk, gewoon je app folder mounten in je container en `--debug` aanzetten in Flask[1].
 
