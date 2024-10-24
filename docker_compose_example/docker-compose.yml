@@ -2,13 +2,13 @@
 services:
   flask_app:
     container_name: flask_app
-    build: .
-    ports:
+    build: .    # hier is geen image gedefinieerd, maar de locatie waar een Dockerfile staat. Deze Dockerfile wordt gebuild tot een image
+    ports:      # port mapping
       - "8888:5000"
-    environment:
-      - DB_URL=postgresql://postgres:postgres@flask_db:5432/postgres
-    depends_on:
-      - flask_db
+    environment:  # environment variables! Supernuttig, dit maakt je code en je container flexibel
+      - DB_URL=postgresql://postgres:postgres@flask_db:5432/postgres      # DB_URL wordt in de Flask app gebruikt
+    depends_on:  # hier kan je de volgorde van opstarten aangeven. flask_app mag pas starten als flask_db is opgestart
+      - flask_db 
 
   flask_db:
     container_name: flask_db
@@ -17,8 +17,10 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_DB=postgres
-    volumes:
-      - pgdata:/var/lib/postgresql/data
+    volumes:   
+    # dit een volume mount, geen bind mount. Zoek maar op in de documentatie wat dit betekent. 
+    # dir kan ook prima een bind mount zijn overigens
+      - pgdata:/var/lib/postgresql/data 
 
 volumes:
   pgdata: {}
